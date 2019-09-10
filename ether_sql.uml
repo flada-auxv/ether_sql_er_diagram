@@ -1,0 +1,226 @@
+@startuml
+
+entity "alembic_version" {
+  + version_num [PK]
+  --
+}
+
+entity "block_task_meta" {
+  + id [PK]
+  --
+  task_id
+  task_name
+  state
+  block_number
+  block_hash
+}
+
+entity "blocks" {
+  + block_number [PK]
+  --
+  block_hash
+  parent_hash
+  difficulty
+  gas_used
+  miner
+  timestamp
+  sha3uncles
+  extra_data
+  gas_limit
+  uncle_count
+  transaction_count
+}
+
+entity "logs" {
+  + id [PK]
+  --
+  transaction_hash
+  address
+  data
+  block_number
+  timestamp
+  transaction_index
+  log_index
+  topics_count
+  topic_1
+  topic_2
+  topic_3
+  topic_4
+}
+
+entity "meta_info" {
+  + id [PK]
+  --
+  last_pushed_block
+  current_state_block
+}
+
+entity "receipts" {
+  + transaction_hash [PK]
+  --
+  status
+  gas_used
+  cumulative_gas_used
+  contract_address
+  block_number
+  timestamp
+  transaction_index
+}
+
+entity "state" {
+  + address [PK]
+  --
+  balance
+  nonce
+  code
+}
+
+entity "state_diff" {
+  + id [PK]
+  --
+  block_number
+  timestamp
+  transaction_hash
+  transaction_index
+  address
+  balance_diff
+  nonce_diff
+  code_from
+  code_to
+  state_diff_type
+}
+
+entity "storage" {
+  + id [PK]
+  --
+  address
+  position
+  storage
+}
+
+entity "storage_diff" {
+  + id [PK]
+  --
+  block_number
+  timestamp
+  transaction_hash
+  transaction_index
+  state_diff_id
+  address
+  position
+  storage_from
+  storage_to
+}
+
+entity "traces" {
+  + id [PK]
+  --
+  block_number
+  transaction_hash
+  trace_type
+  trace_address
+  subtraces
+  transaction_index
+  sender
+  receiver
+  value
+  start_gas
+  input_data
+  gas_used
+  contract_address
+  output
+  error
+}
+
+entity "transactions" {
+  + transaction_hash [PK]
+  --
+  block_number
+  nonce
+  sender
+  receiver
+  start_gas
+  value
+  data
+  gas_price
+  timestamp
+  transaction_index
+}
+
+entity "uncles" {
+  + uncle_hash [PK]
+  --
+  uncle_blocknumber
+  parent_hash
+  difficulty
+  current_blocknumber
+  gas_used
+  miner
+  timestamp
+  sha3uncles
+  extra_data
+  gas_limit
+}
+
+ logs }-- blocks
+
+ logs }-- blocks
+
+ logs }-- transactions
+
+ logs }-- transactions
+
+ meta_info }-- blocks
+
+ meta_info }-- blocks
+
+ receipts }-- blocks
+
+ receipts }-- blocks
+
+ receipts ||-|| transactions
+
+ receipts ||-|| transactions
+
+ receipts ||-|| transactions
+
+ receipts ||-|| transactions
+
+ state_diff }-- blocks
+
+ state_diff }-- blocks
+
+ state_diff }-- transactions
+
+ state_diff }-- transactions
+
+ storage }-- state
+
+ storage }-- state
+
+ storage_diff }-- blocks
+
+ storage_diff }-- blocks
+
+ storage_diff }-- state_diff
+
+ storage_diff }-- transactions
+
+ storage_diff }-- transactions
+
+ traces }-- blocks
+
+ traces }-- blocks
+
+ traces }-- transactions
+
+ traces }-- transactions
+
+ transactions }-- blocks
+
+ transactions }-- blocks
+
+ uncles }-- blocks
+
+ uncles }-- blocks
+@enduml

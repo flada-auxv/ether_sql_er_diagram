@@ -1,0 +1,20 @@
+version: "3"
+services:
+  python:
+    build: python
+  postgres:
+    image: postgres:11.5
+    environment:
+      - POSTGRES_USER=finney
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=ether_sql
+    ports:
+      - 5432:5432
+  # redis:
+  #   image: redis:5.0
+  # rabbitmq:
+  #   image: rabbitmq:3.7
+  #   environment:
+  #     - RABBITMQ_DEFAULT_USER=szabo
+  #     - RABBITMQ_DEFAULT_PASS=password
+
